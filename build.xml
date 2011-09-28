@@ -11,24 +11,24 @@
 	<!-- load shell environment -->
 	<property environment="ENV" />
 
-	<target name="all" depends="documentation,static-analysis,compile,test">
+	<target name="all" depends="doc,sca,compile,test" description="Complete build">
 	</target>
 
-	<target name="documentation">
+	<target name="doc" description="Builds documentation">
 	</target>
 
-	<target name="compile">
+	<target name="compile" description="Compiles files">
 	</target>
 
-	<target name="static-analysis">
+	<target name="sca" description="Performs static code analysis">
 	</target>
 
-	<target name="test" depends="compile">
+	<target name="test" depends="compile" description="Runs unit tests">
 	</target>
 
-	<target name="clean">
+	<target name="clean" description="Cleans a build">
 	</target>
 
-	<target name="install" depends="all">
+	<target name="install" depends="all" description="Performs an installation">
 	</target>
 </project>
