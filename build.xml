@@ -6,14 +6,15 @@
 <!DOCTYPE project>
 <project name="Burning Boots Web Build" default="all" basedir="..">
 
-	<description>
-		A build process for a web based project.
-	</description>
+	<description>A build process for a web based project.</description>
 
 	<!-- load shell environment -->
 	<property environment="ENV" />
 
-	<target name="all" depends="static-analysis,compile,test">
+	<target name="all" depends="documentation,static-analysis,compile,test">
+	</target>
+
+	<target name="documentation">
 	</target>
 
 	<target name="compile">
