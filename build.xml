@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+
+<!--      © Burning Boots       -->
+<!-- Please use a tab size of 2 -->
+
+<!DOCTYPE project>
+<project name="Burning Boots Web Build" default="all" basedir="..">
+
+	<description>
+		A build process for a web based project.
+	</description>
+
+	<!-- load shell environment -->
+	<property environment="ENV" />
+
+	<target name="all" depends="static-analysis,compile,test">
+	</target>
+
+	<target name="compile">
+	</target>
+
+	<target name="static-analysis">
+	</target>
+
+	<target name="test" depends="compile">
+	</target>
+
+	<target name="clean">
+	</target>
+
+	<target name="install" depends="all">
+	</target>
+</project>
