@@ -29,7 +29,7 @@ This should be included inside the individual website build.xml files.
 	<dirname property="burning-boots-web-build.basedir" file="${ant.file.burning-boots-web-build}"/>
 
 	<!-- load shell environment -->
-	<!--<property environment="ENV" />-->
+	<property environment="env" />
 
 	<!-- Load in the default properties -->
 	<property file="${burning-boots-web-build.basedir}/config/default.properties"/>
