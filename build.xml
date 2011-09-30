@@ -1,34 +1,88 @@
 ﻿<?xml version="1.0"?>
 
-<!--      © Burning Boots       -->
+<!--       Burning Boots        -->
 <!-- Please use a tab size of 2 -->
 
 <!DOCTYPE project>
-<project name="Burning Boots Web Build" default="all" basedir=".">
+<project name="burning-boots-web-build" default="all" basedir=".">
+	<description>
+A build process for a web based project.
+This should be included inside the individual website build.xml files.
+	</description>
 
-	<description>A build process for a web based project.</description>
+	<!-- Test the Ant Version -->
+	<property name="burning-boots-web-build.required-ant-version" value="1.8.2"/>
+	<script language="javascript">
+		<![CDATA[
+			var current		= project.getProperty("ant.version").match(/([0-9](\.)?)+/)[0].replace(/\./g,"");
+			var required	= project.getProperty("burning-boots-web-build.required-ant-version").match(/([0-9](\.)?)+/)[0].replace(/\./g,"");
+			project.setProperty('ant.valid-version', current < required ? "false" : "true");
+		]]>
+	</script>
+	<fail message="This build requires Ant version ${burning-boots-web-build.required-ant-version}.">
+		<condition>
+			<isfalse value="${ant.valid-version}"/>
+		</condition>
+	</fail>
+
+	<!-- Store this base dir -->
+	<dirname property="burning-boots-web-build.basedir" file="${ant.file.burning-boots-web-build}"/>
 
 	<!-- load shell environment -->
-	<property environment="ENV" />
+	<!--<property environment="ENV" />-->
 
+	<!-- Load in the default properties -->
+	<property file="${burning-boots-web-build.basedir}/config/default.properties"/>
+
+	<!-- Pull in the tool properties from the tools directory -->
+	<fail message="bb.tools was set to '${bb.tools}'.  You must set the to the Burning Boots tools directory.">
+		<condition>
+			<not>
+				<available file="${bb.tools}/tools.xml"/>
+			</not>
+		</condition>
+	</fail>
+	<import file="${bb.tools}/tools.xml"/>
+
+	<!-- Load in Ant-Contrib to give us access to some very useful tasks! -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${bb.tools.apache.ant.ant-contrib.jar}"/>
+		</classpath>
+	</taskdef>
+
+	<!-- Standard targets (clean, all, install) -->
 	<target name="all" description="Complete build" depends="doc,compile,test">
 	</target>
-
-	<target name="doc" description="Builds documentation">
+	<target name="clean" description="Cleans a build" depends="doc-clean,compile-clean,test-clean">
+	</target>
+	<target name="install" depends="all" description="Performs an installation">
 	</target>
 
+	<!-- Targets for doc -->
+	<target name="doc" description="Builds documentation">
+		<!-- Build the Javascript documentation -->
+		<mkdir dir="${dir.doc}"/>
+	</target>
+	<target name="doc-clean">
+		<delete dir="${dir.doc}/"/>
+	</target>
+
+	<!-- Targets for compile -->
 	<target name="compile" description="Compiles files" depends="sca">
 	</target>
+	<target name="compile-clean" depends="sca-clean">
+	</target>
 
+	<!-- Targets for sca -->
 	<target name="sca" description="Performs static code analysis">
 	</target>
-
-	<target name="test" depends="compile" description="Runs unit tests">
+	<target name="sca-clean">
 	</target>
 
-	<target name="clean" description="Cleans a build">
+	<!-- Targets for test -->
+	<target name="test" description="Runs unit tests" depends="compile">
 	</target>
-
-	<target name="install" depends="all" description="Performs an installation">
+	<target name="test-clean" depends="compile-clean">
 	</target>
 </project>
