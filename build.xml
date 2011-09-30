@@ -36,20 +36,20 @@ This should be included inside the individual website build.xml files.
 	<property file="${burning-boots-web-build.basedir}/config/default.properties"/>
 
 	<!-- Pull in the tool properties from the tools directory -->
-	<property name="bb.tools" value="${env.BURNING_BOOTS_TOOLS_DIR}"/>
-	<fail message="bb.tools was set to '${bb.tools}', 'tools.xml' could not be found. You must set the to the Burning Boots tools directory.">
+	<property name="bb.tools.dir" value="${env.BURNING_BOOTS_TOOLS_DIR}"/>
+	<fail message="bb.tools.dir was set to '${bb.tools.dir}', 'tools.xml' could not be found. You must set the to the Burning Boots tools directory either by overriding 'bb.tools.dir' or exporting 'BURNING_BOOT_TOOLS_DIR' in your environment.">
 		<condition>
 			<not>
-				<available file="${bb.tools}/tools.xml"/>
+				<available file="${bb.tools.dir}/tools.xml"/>
 			</not>
 		</condition>
 	</fail>
-	<import file="${bb.tools}/tools.xml"/>
+	<import file="${bb.tools.dir}/tools.xml"/>
 
 	<!-- Load in Ant-Contrib to give us access to some very useful tasks! -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<pathelement location="${bb.tools.apache.ant.ant-contrib.jar}"/>
+			<pathelement location="${bb.tools.dir.apache.ant.ant-contrib.jar}"/>
 		</classpath>
 	</taskdef>
 
