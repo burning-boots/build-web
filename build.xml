@@ -35,7 +35,7 @@ This should be included inside the individual website build.xml files.
 	<property file="${burning-boots-web-build.basedir}/config/default.properties"/>
 
 	<!-- Pull in the tool properties from the tools directory -->
-	<fail message="bb.tools was set to '${bb.tools}'.  You must set the to the Burning Boots tools directory.">
+	<fail message="bb.tools was set to '${bb.tools}', 'tools.xml' could not be found. You must set the to the Burning Boots tools directory.">
 		<condition>
 			<not>
 				<available file="${bb.tools}/tools.xml"/>
