@@ -30,7 +30,6 @@ This should be included inside the individual website build.xml files.
 
 	<!-- load shell environment -->
 	<property environment="env" />
-<echoproperties/>
 
 	<!-- Load in the default properties -->
 	<property file="${burning-boots-web-build.basedir}/config/default.properties"/>
@@ -49,7 +48,7 @@ This should be included inside the individual website build.xml files.
 	<!-- Load in Ant-Contrib to give us access to some very useful tasks! -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<pathelement location="${bb.tools.dir.apache.ant.ant-contrib.jar}"/>
+			<pathelement location="${bb.tools.apache.ant.ant-contrib.jar}"/>
 		</classpath>
 	</taskdef>
 
