@@ -28,6 +28,15 @@ This should be included inside the individual website build.xml files.
 	<!-- Store this base dir -->
 	<dirname property="burning-boots-web-build.basedir" file="${ant.file.burning-boots-web-build}"/>
 
+	<!-- Check we are building in a web project! -->
+	<fail message="You must include this build file inside a working web project.  Could not find 'index.html' in the root directory">
+		<condition>
+			<not>
+				<available file="${burning-boots-web-build.basedir}/index.html"/>
+			</not>
+		</condition>
+	</fail>
+
 	<!-- load shell environment -->
 	<property environment="env" />
 
