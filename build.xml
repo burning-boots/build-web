@@ -93,7 +93,7 @@ This should be included inside the individual website build.xml files.
 		<mkdir dir="${dir.doc}"/>
 
 		<!-- Make sure the documentation directory is added to .gitignore -->
-		<property name="git.ignore.doc.string">${dir.doc}		# The documentation directory${line.separator}</property>
+		<property name="git.ignore.doc.string"># The documentation directory${line.separator}${dir.doc}${line.separator}${line.separator}</property>
 		<if>
 			<not>
 				<contains string="${git.ignore}" substring="${git.ignore.doc.string}"/>
