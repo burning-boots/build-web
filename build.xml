@@ -41,7 +41,7 @@ This should be included inside the individual website build.xml files.
 	</fail>
 
 	<!-- load shell environment -->
-	<property environment="env" />
+	<property environment="env"/>
 
 	<!-- Load in the default properties -->
 	<property file="${burning-boots-web-build.basedir}/config/default.properties"/>
@@ -72,30 +72,79 @@ This should be included inside the individual website build.xml files.
 	<target name="install" depends="all" description="Performs an installation">
 	</target>
 
-	<!-- Targets for doc -->
-	<target name="doc" description="Builds documentation">
-		<!-- Build the Javascript documentation -->
-		<mkdir dir="${dir.doc}"/>
+	<!-- Target for gitignore -->
+	<target name="gitignore">
+		<property name="git.ignore.file" value="${ant.project.basedir}/.gitignore"/>
+		<if>
+			<not>
+				<available file="${git.ignore.file}"/>
+			</not>
+			<then>
+				<echo file="${git.ignore.file}"># Burning Boots${line.separator}# Please use a tab size of 8${line.separator}${line.separator}</echo>
+			</then>
+		</if>
+		<loadfile srcfile="${git.ignore.file}" property="git.ignore"/>
 	</target>
+
+	<!-- Targets for doc -->
+	<target name="doc" description="Builds documentation" depends="gitignore">
+
+		<!-- Make sure there is a documentation directory -->
+		<mkdir dir="${dir.doc}"/>
+
+		<!-- Make sure the documentation directory is added to .gitignore -->
+		<property name="git.ignore.doc.string">${dir.doc}		# The documentation directory${line.separator}</property>
+		<if>
+			<not>
+				<contains string="${git.ignore}" substring="${git.ignore.doc.string}"/>
+			</not>
+			<then>
+				<echo file="${git.ignore.file}" append="true">${git.ignore.doc.string}</echo>
+			</then>
+		</if>
+
+		<!-- Build the javascript documentation -->
+		<echo>Building Javascript Documentation</echo>
+		<taskdef name="jsdoctoolkit" classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit" classpath="${bb.tools.jsdoc.ant.jar};${bb.tools.rhino.jar}"/>
+<!--		<jsdoctoolkit jsdochome="${bb.tools.jsdoc.dir}/"
+		              template="sunny"
+		              outputdir="${ant.project.basedir}/${dir.doc}/js/"
+		              inputdir="${ant.project.basedir}/${dir.js}"/>-->
+		<exec executable="java" failonerror="true">
+			<arg value="-jar"/>
+			<arg path="${bb.tools.jsdoc.jar}"/>
+			<arg path="${bb.tools.jsdoc.app.runjs}"/>
+			<arg value="-d=${ant.project.basedir}/${dir.doc}/js"/>
+			<arg value="-t=${bb.tools.jsdoc.template.dir}"/>
+			<arg value="-r"/>
+			<arg value="-q"/>
+			<arg path="${ant.project.basedir}/${dir.js}"/>
+		</exec>
+		<echo>Javascript Documentation Complete</echo>
+	</target>
+
 	<target name="doc-clean">
-		<delete dir="${dir.doc}/"/>
+		<delete dir="${dir.doc}"/>
 	</target>
 
 	<!-- Targets for compile -->
 	<target name="compile" description="Compiles files" depends="sca">
 	</target>
+
 	<target name="compile-clean" depends="sca-clean">
 	</target>
 
 	<!-- Targets for sca -->
 	<target name="sca" description="Performs static code analysis">
 	</target>
+
 	<target name="sca-clean">
 	</target>
 
 	<!-- Targets for test -->
 	<target name="test" description="Runs unit tests" depends="compile">
 	</target>
+
 	<target name="test-clean" depends="compile-clean">
 	</target>
 </project>
